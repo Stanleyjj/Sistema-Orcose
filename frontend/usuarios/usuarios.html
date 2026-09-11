@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+
+<!-- ================================================================
+     DECLARAÇÃO DO DOCUMENTO HTML
+     ================================================================ -->
+
+<!--
+Informa ao navegador que esta página utiliza
+a versão HTML5 da linguagem HTML.
+-->
+<html lang="pt-BR">
+
+<head>
+
+  <!-- ==============================================================
+       CONFIGURAÇÕES DA PÁGINA
+       ============================================================== -->
+
+  <!--
+  Define o padrão de caracteres.
+
+  UTF-8 permite utilizar corretamente:
+
+  • Letras acentuadas
+  • Cedilha
+  • Caracteres especiais
+  • Emojis
+  -->
+  <meta charset="UTF-8">
+
+
+  <!--
+  Nome exibido na aba do navegador.
+  -->
+  <title>Usuários</title>
+
+
+  <!--
+  Permite que a página seja responsiva.
+
+  Ou seja, adapta automaticamente
+  o layout para computadores,
+  celulares e tablets.
+  -->
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+
+  <!-- ==============================================================
+       IMPORTAÇÃO DOS ARQUIVOS CSS
+       ============================================================== -->
+
+  <!--
+  Arquivo principal de estilos.
+  -->
+  <link rel="stylesheet" href="../style.css">
+
+
+  <!--
+  Arquivo responsável pelos estilos
+  do menu lateral.
+  -->
+  <link rel="stylesheet" href="../menu.css">
+
+</head>
+
+
+<!-- ================================================================
+     CORPO DA PÁGINA
+     ================================================================ -->
+
+<body>
+
+  <!--
+  Área destinada às mensagens
+  de sucesso ou erro.
+
+  Seu conteúdo será alterado
+  pelo JavaScript.
+  -->
+  <div id="notificacao" class="notificacao"></div>
+
+
+  <!-- ==============================================================
+       CABEÇALHO
+       ============================================================== -->
+
+  <header>
+
+    <!-- Logotipo da empresa -->
+    <img src="../logo orcose.png">
+
+
+    <!-- Nome da tela -->
+    <h1>
+
+      Usuários
+
+    </h1>
+
+
+    <!--
+    Exibe o usuário logado.
+
+    O JavaScript preencherá
+    este campo automaticamente.
+    -->
+    <span
+      id="usuarioTopo"
+      class="usuario-topo"></span>
+
+
+    <!--
+    Botão responsável por abrir
+    e fechar o menu lateral.
+    -->
+    <button
+
+      class="menu-btn"
+
+      id="menuBtn"
+
+      onclick="toggleMenu()">
+
+      <!--
+      Os três spans formam
+      o ícone "Menu Hambúrguer".
+      -->
+      <span></span>
+      <span></span>
+      <span></span>
+
+    </button>
+
+  </header>
+
+
+  <!-- ==============================================================
+       MENU LATERAL
+       ============================================================== -->
+
+  <nav id="menuLateral" class="menu-lateral">
+
+    <div class="menu-links">
+
+      <!-- Página inicial -->
+      <a href="../home/home.html">
+
+        🏠 Home
+
+      </a>
+
+
+      <!-- ==========================================================
+           MENU DE CADASTROS
+           ========================================================== -->
+
+      <div
+        class="dropdown-btn"
+        onclick="toggleDropdown()">
+
+        📂 Cadastros
+
+        <span id="setaCadastro">
+
+          ▾
+
+        </span>
+
+      </div>
+
+
+      <!-- Submenu -->
+      <div
+        id="submenuCadastro"
+        class="submenu">
+
+        <a href="../empresas/empresas.html">
+
+          🏢 Pessoa Jurídica
+
+        </a>
+
+        <a href="../fisica/fisica.html">
+
+          👤 Pessoa Física
+
+        </a>
+
+      </div>
+
+
+      <!-- Leitura de XML -->
+      <a href="../xml/xml.html">
+
+        🧾 XML
+
+      </a>
+
+
+      <!-- Tela atual -->
+      <a
+        href="usuarios.html"
+        id="menuUsuarios">
+
+        🛡️ Usuários
+
+      </a>
+
+
+      <!-- Configurações -->
+      <a href="../configuracoes/configuracoes.html">
+
+        ⚙ Configurações
+
+      </a>
+
+    </div>
+
+
+    <!-- Rodapé do menu -->
+    <div class="menu-footer">
+
+      <!--
+      Encerra a sessão do usuário.
+      -->
+      <button
+
+        class="btn-logout"
+
+        onclick="logout()">
+
+        🚪 Sair
+
+      </button>
+
+    </div>
+
+  </nav>
+
+
+  <!-- ==============================================================
+       MENU SUPERIOR
+       ============================================================== -->
+
+  <!--
+  Esse menu controla qual aba
+  ficará visível na tela.
+  -->
+  <nav class="menu">
+
+    <ul>
+
+      <!-- Cadastro -->
+      <li
+
+        data-aba="cadastro"
+
+        onclick="mostrar('cadastro')">
+
+        CADASTRAR
+
+      </li>
+
+
+      <!-- Edição -->
+      <li
+
+        data-aba="editar"
+
+        onclick="mostrar('editar')">
+
+        EDITAR
+
+      </li>
+
+
+      <!-- Exclusão -->
+      <li
+
+        data-aba="excluir"
+
+        onclick="mostrar('excluir')">
+
+        EXCLUIR
+
+      </li>
+
+
+      <!-- Voltar -->
+      <li onclick="voltar()">
+
+        VOLTAR
+
+      </li>
+
+    </ul>
+
+  </nav>
+
+
+  <!-- ==============================================================
+       CONTEÚDO PRINCIPAL
+       ============================================================== -->
+
+  <main>
+
+    <!-- ==========================================================
+         ABA DE CADASTRO
+         ========================================================== -->
+
+    <div id="cadastro" class="aba">
+
+      <h2 id="tituloUsuario">
+
+        Cadastrar Usuário
+
+      </h2>
+
+
+      <!--
+      Formulário responsável
+      pelo cadastro de usuários.
+      -->
+      <form id="formUsuario">
+
+        <!-- Usuário -->
+        <input
+
+          type="text"
+
+          id="u_usuario"
+
+          placeholder="Usuário"
+
+          required>
+
+
+        <!-- Senha -->
+        <input
+
+          type="password"
+
+          id="u_senha"
+
+          placeholder="Senha"
+
+          required>
+
+
+        <!-- Tipo do usuário -->
+        <select id="u_tipo">
+
+          <option value="USUARIO">
+
+            USUÁRIO
+
+          </option>
+
+          <option value="ADMIN">
+
+            ADMIN
+
+          </option>
+
+        </select>
+
+
+        <!-- Salvar -->
+        <button type="submit">
+
+          Salvar
+
+        </button>
+
+      </form>
+
+    </div>
+
+
+    <!-- ==========================================================
+         ABA DE EDIÇÃO
+         ========================================================== -->
+
+    <div id="editar" class="aba">
+
+      <h2>
+
+        Editar Usuário
+
+      </h2>
+
+
+      <!--
+      Tabela preenchida automaticamente
+      pelo JavaScript.
+      -->
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>AÇÃO</th>
+
+            <th>Usuário</th>
+
+            <th>Tipo</th>
+
+          </tr>
+
+        </thead>
+
+
+        <!--
+        O JavaScript adicionará
+        as linhas da tabela aqui.
+        -->
+        <tbody id="listaEditar"></tbody>
+
+      </table>
+
+    </div>
+
+
+    <!-- ==========================================================
+         ABA DE EXCLUSÃO
+         ========================================================== -->
+
+    <div id="excluir" class="aba">
+
+      <h2>
+
+        Excluir Usuário
+
+      </h2>
+
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>AÇÃO</th>
+
+            <th>Usuário</th>
+
+            <th>Tipo</th>
+
+          </tr>
+
+        </thead>
+
+
+        <!--
+        Lista criada dinamicamente
+        pelo JavaScript.
+        -->
+        <tbody id="listaExcluir"></tbody>
+
+      </table>
+
+
+      <!--
+      Área exibida somente quando
+      houver usuários selecionados.
+      -->
+      <div
+
+        id="acoesSelecionadas"
+
+        class="acoes-selecionadas"
+
+        style="display: none;">
+
+        <!--
+        Confirma a exclusão
+        dos usuários selecionados.
+        -->
+        <button onclick="confirmarExclusaoEmpresas()">
+
+          🗑️ Excluir Selecionadas (
+
+          <span id="contadorSelecionados">
+
+            0
+
+          </span>
+
+          )
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- ==============================================================
+       MODAL DE CONFIRMAÇÃO
+       ============================================================== -->
+
+  <!--
+  Janela utilizada para solicitar
+  confirmação antes de executar
+  operações importantes.
+  -->
+  <div id="modalConfirm" class="modal-confirm">
+
+    <div class="modal-box">
+
+      <h3 id="modalTitulo">
+
+        Confirmação
+
+      </h3>
+
+      <p id="modalTexto">
+
+        Tem certeza?
+
+      </p>
+
+      <div class="modal-actions">
+
+        <button id="modalCancelar">
+
+          Cancelar
+
+        </button>
+
+        <button id="modalConfirmar">
+
+          Confirmar
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ==============================================================
+       RODAPÉ
+       ============================================================== -->
+
+  <footer class="footer">
+
+    <div class="footer-content">
+
+      <span>
+
+        © 2026 Orcose Sistemas
+
+      </span>
+
+      <span>
+
+        Versão 1.0.0
+
+      </span>
+
+    </div>
+
+  </footer>
+
+
+  <!-- ==============================================================
+       IMPORTAÇÃO DOS ARQUIVOS JAVASCRIPT
+       ============================================================== -->
+
+  <!--
+  Contém todas as funções
+  relacionadas ao menu.
+  -->
+  <script src="../menu.js"></script>
+
+
+  <!--
+  Contém toda a lógica da tela de usuários,
+  incluindo:
+
+  • Cadastro
+
+  • Listagem
+
+  • Edição
+
+  • Exclusão
+
+  • Comunicação com o backend
+  -->
+  <script src="usuarios.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+
+<!-- ================================================================
+     DECLARAÇÃO DO DOCUMENTO HTML
+     ================================================================ -->
+
+<!--
+Informa ao navegador que esta página utiliza
+a versão HTML5.
+-->
+<html lang="pt-BR">
+
+<head>
+
+    <!-- ============================================================
+         CONFIGURAÇÕES DA PÁGINA
+         ============================================================ -->
+
+    <!--
+    Define o padrão de caracteres.
+
+    UTF-8 permite utilizar corretamente:
+
+    • Letras acentuadas
+    • Cedilha
+    • Símbolos especiais
+    • Emojis
+    -->
+    <meta charset="UTF-8">
+
+    <!--
+    Título exibido na aba do navegador.
+    -->
+    <title>XML</title>
+
+
+    <!-- ============================================================
+         IMPORTAÇÃO DOS ARQUIVOS CSS
+         ============================================================ -->
+
+    <!--
+    Arquivo principal de estilos da aplicação.
+    -->
+    <link rel="stylesheet" href="../style.css">
+
+    <!--
+    Arquivo responsável pelos estilos
+    do menu lateral.
+    -->
+    <link rel="stylesheet" href="../menu.css">
+
+</head>
+
+
+<!-- ================================================================
+     CORPO DA PÁGINA
+     ================================================================ -->
+
+<body>
+
+    <!--
+    Área destinada à exibição de notificações.
+    -->
+    <div id="notificacao" class="notificacao"></div>
+
+
+    <!-- ============================================================
+         CABEÇALHO DA APLICAÇÃO
+         ============================================================ -->
+
+    <header>
+
+        <!--
+        Logotipo da empresa.
+        -->
+        <img src="../logo orcose.png">
+
+
+        <!--
+        Nome da funcionalidade aberta.
+        -->
+        <h1>Leitura de XML</h1>
+
+
+        <!--
+        Exibe o usuário logado.
+
+        O conteúdo será preenchido
+        pelo JavaScript.
+        -->
+        <span id="usuarioTopo" class="usuario-topo"></span>
+
+
+        <!--
+        Botão responsável por abrir
+        ou fechar o menu lateral.
+
+        Ao ser clicado,
+        executa a função:
+
+        toggleMenu()
+        -->
+        <button
+            class="menu-btn"
+            id="menuBtn"
+            onclick="toggleMenu()">
+
+            <!--
+            Os três <span> formam
+            o ícone conhecido como
+            "Menu Hambúrguer".
+            -->
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+    </header>
+
+
+    <!-- ============================================================
+         MENU LATERAL
+         ============================================================ -->
+
+    <nav id="menuLateral" class="menu-lateral">
+
+        <div class="menu-links">
+
+            <!-- Página inicial -->
+            <a href="../home/home.html">
+                🏠 Home
+            </a>
+
+
+            <!-- ====================================================
+                 MENU EXPANSÍVEL
+                 ==================================================== -->
+
+            <div class="menu-dropdown">
+
+                <!--
+                Botão que abre ou fecha
+                o submenu.
+                -->
+                <div
+                    class="dropdown-btn"
+                    onclick="toggleDropdown()">
+
+                    📂 Cadastros
+
+                    <span id="setaCadastro">
+
+                        ▾
+
+                    </span>
+
+                </div>
+
+
+                <!--
+                Submenu contendo
+                os cadastros do sistema.
+                -->
+                <div
+                    id="submenuCadastro"
+                    class="submenu">
+
+                    <a href="../empresas/empresas.html">
+
+                        🏢 Pessoa Jurídica
+
+                    </a>
+
+                    <a href="../fisica/fisica.html">
+
+                        👤 Pessoa Física
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Tela atual -->
+            <a href="xml.html">
+
+                🧾 XML
+
+            </a>
+
+
+            <!-- Cadastro de usuários -->
+            <a
+                href="../usuarios/usuarios.html"
+                id="menuUsuarios">
+
+                🛡️ Usuários
+
+            </a>
+
+
+            <!-- Configurações -->
+            <a href="../configuracoes/configuracoes.html">
+
+                ⚙ Configurações
+
+            </a>
+
+        </div>
+
+
+        <!-- ========================================================
+             RODAPÉ DO MENU
+             ======================================================== -->
+
+        <div class="menu-footer">
+
+            <!--
+            Botão responsável
+            por encerrar a sessão.
+            -->
+            <button
+                class="btn-logout"
+                onclick="logout()">
+
+                🚪 Sair
+
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ============================================================
+         MENU SUPERIOR
+         ============================================================ -->
+
+    <nav class="menu">
+
+        <ul>
+
+            <!--
+            Retorna para a tela anterior.
+            -->
+            <li onclick="voltar()">
+
+                VOLTAR
+
+            </li>
+
+        </ul>
+
+    </nav>
+
+
+    <!-- ============================================================
+         CONTEÚDO PRINCIPAL
+         ============================================================ -->
+
+    <main>
+
+        <!-- ========================================================
+             ÁREA DE IMPORTAÇÃO DO XML
+             ======================================================== -->
+
+        <div class="card-xml">
+
+            <h2>
+
+                Leitura XML Imposto de Renda
+
+            </h2>
+
+
+            <!--
+            Área utilizada para selecionar arquivos XML.
+
+            O usuário pode:
+
+            • Clicar
+
+            ou
+
+            • Arrastar arquivos
+            -->
+            <div
+
+                class="upload-area"
+
+                onclick="document.getElementById('xmlFile').click()">
+
+                <p>
+
+                    📂 Clique ou arraste XML do IRPF
+
+                </p>
+
+
+                <!--
+                Exibe o nome dos arquivos
+                escolhidos.
+                -->
+                <span id="nomeArquivos">
+
+                    Nenhum arquivo selecionado
+
+                </span>
+
+
+                <!--
+                Campo de seleção de arquivos.
+
+                multiple
+
+                permite selecionar
+                vários XML ao mesmo tempo.
+
+                accept=".xml"
+
+                limita a seleção apenas
+                para arquivos XML.
+                -->
+                <input
+
+                    type="file"
+
+                    id="xmlFile"
+
+                    accept=".xml"
+
+                    multiple
+
+                    onchange="mostrarArquivos()">
+
+            </div>
+
+
+            <!-- ====================================================
+                 BOTÕES
+                 ==================================================== -->
+
+            <!--
+            Processa todos os XML selecionados.
+            -->
+            <button onclick="lerXML()">
+
+                Processar XML
+
+            </button>
+
+
+            <!--
+            Exporta os resultados
+            para uma planilha Excel.
+            -->
+            <button onclick="exportarExcel()">
+
+                Exportar Excel
+
+            </button>
+
+
+            <!--
+            Gera a impressão
+            do relatório.
+            -->
+            <button onclick="imprimirRelatorio()">
+
+                🖨️ Imprimir Relatório
+
+            </button>
+
+
+            <!-- ====================================================
+                 RESUMO DOS DADOS
+                 ==================================================== -->
+
+            <div class="resultado-xml">
+
+                <!--
+                Quantidade de arquivos processados.
+                -->
+                <p>
+
+                    Total Arquivos
+
+                    <br>
+
+                    <b id="totalNotas">
+
+                        0
+
+                    </b>
+
+                </p>
+
+
+                <!--
+                Soma dos valores encontrados.
+                -->
+                <p>
+
+                    Soma Valores
+
+                    <br>
+
+                    <b id="valorTotal">
+
+                        0.00
+
+                    </b>
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================================================
+             ÁREA DOS RESULTADOS
+             ======================================================== -->
+
+        <div class="xml-box">
+
+            <h2>
+
+                Resultado
+
+            </h2>
+
+
+            <!--
+            Todo o conteúdo extraído
+            dos XML será inserido aqui
+            pelo JavaScript.
+            -->
+            <div id="resultadoXML"></div>
+
+        </div>
+
+    </main>
+
+
+    <!-- ============================================================
+         MODAL DE CONFIRMAÇÃO
+         ============================================================ -->
+
+    <!--
+    Janela utilizada para solicitar
+    confirmação do usuário.
+    -->
+    <div id="modalConfirm" class="modal-confirm">
+
+        <div class="modal-box">
+
+            <!-- Título -->
+            <h3 id="modalTitulo">
+
+                Confirmação
+
+            </h3>
+
+            <!-- Texto -->
+            <p id="modalTexto">
+
+                Tem certeza?
+
+            </p>
+
+            <!-- Botões -->
+            <div class="modal-actions">
+
+                <button id="modalCancelar">
+
+                    Cancelar
+
+                </button>
+
+                <button id="modalConfirmar">
+
+                    Confirmar
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================================================
+         RODAPÉ DA PÁGINA
+         ============================================================ -->
+
+    <footer class="footer">
+
+        <div class="footer-content">
+
+            <!-- Direitos autorais -->
+            <span>
+
+                © 2026 Orcose Sistemas
+
+            </span>
+
+            <!-- Versão do sistema -->
+            <span>
+
+                Versão 1.0.0
+
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ============================================================
+         IMPORTAÇÃO DOS ARQUIVOS JAVASCRIPT
+         ============================================================ -->
+
+    <!--
+    Contém todas as funções
+    relacionadas ao menu.
+    -->
+    <script src="../menu.js"></script>
+
+
+    <!--
+    Contém toda a lógica responsável por:
+
+    • Ler os XML
+
+    • Processar os dados
+
+    • Exibir os resultados
+
+    • Exportar Excel
+
+    • Imprimir relatórios
+    -->
+    <script src="xml.js"></script>
+
+</body>
+
+</html>

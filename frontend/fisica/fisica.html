@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Define o conjunto de caracteres (acentos e português) -->
+    <meta charset="UTF-8">
+
+    <!-- Título que aparece na aba do navegador -->
+    <title>Cadastro de Pessoas Fisicas</title>
+
+    <!-- Ajusta o layout para celular e tablet -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Importa o arquivo de estilos (cores, tamanhos, layout) -->
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../menu.css">
+</head>
+
+<body>
+<!-- DIV usada para mostrar mensagens de erro ou sucesso -->
+<div id="notificacao" class="notificacao"></div>
+
+<!-- ===============================
+CABEÇALHO DO SISTEMA
+=============================== -->
+<header>
+    <img src="../logo orcose.png">
+    <h1>Cadastrar Pessoa Fisica</h1>
+    <span id="usuarioTopo" class="usuario-topo"></span>
+    <button class="menu-btn" id="menuBtn" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</header>
+
+<nav id="menuLateral" class="menu-lateral">
+    <div class="menu-links">
+        <a href="../home/home.html">🏠 Home</a>
+        <div class="menu-dropdown">
+            <div class="dropdown-btn" onclick="toggleDropdown()">
+                📂 Cadastros
+                <span id="setaCadastro">▾</span>
+            </div>  
+            <div id="submenuCadastro" class="submenu">
+                <a href="../empresas/empresas.html">🏢 Pessoa Juridica</a>
+                <a href="fisica.html">👤 Pessoa fisica</a>
+            </div>
+        </div>
+        <a href="../xml/xml.html">🧾XML</a> 
+        <a href="../usuarios/usuarios.html" id="menuUsuarios">🛡️ Usuários</a>
+        <a href="../configuracoes/configuracoes.html">⚙ Configurações</a>  
+    </div>    
+    <div class="menu-footer">
+        <button class="btn-logout" onclick="logout()">🚪 Sair</button>
+    </div>
+</nav>
+
+<!-- ===============================
+MENU DE NAVEGAÇÃO
+=============================== -->
+<nav class="menu">
+    <ul>
+        <li data-aba="cadastro" onclick="mostrar('cadastro')">CADASTRAR</li>
+        <li data-aba="editar" onclick="mostrar('editar')">EDITAR</li>
+        <li data-aba="excluir" onclick="mostrar('excluir')">EXCLUIR</li>
+        <li data-aba="listaAba"onclick="mostrar('listaAba')">VISUALIZAR</li>
+        <li onclick="voltar()">VOLTAR</li>
+    </ul>
+</nav>
+
+<main class="app-content">
+    <!-- Título que muda conforme a aba -->
+    <h2 id="tituloTela"></h2>
+
+    <!-- ===============================
+    ABA: CADASTRO DE EMPRESA
+    =============================== -->
+    <div id="cadastro" class="aba">
+
+        <!-- Formulário principal -->
+        <form id="formCadastro">
+
+            <!-- Campo: Nome -->
+            <label for="nome">Nome</label>
+            <input id="nome" type="text" placeholder="Nome completo" pattern="[A-Za-zÀ-ÿ0-9\s\.\-]{1,100}" title="Letras, números e caracteres básicos" required>
+
+            <!-- Campo: Código completo -->
+            <label for="cod_completo">Código Completo</label>
+            <input id="cod_completo" type="text" placeholder="Ex: 0001-1" pattern="\d{4}-\d{1,2}" title="Formato: 0001-1" required>
+
+            <!-- Campo: Código -->
+            <label for="cod">Código</label>
+            <input id="cod" type="text" placeholder="Ex: 0001" pattern="\d{4}"required>
+
+            <!-- Campo: Município (lista suspensa) -->
+            <label for="municipio">Município</label>
+            <select id="municipio" required>
+                <option value="">Selecione</option>
+                <option value="ASSIS">ASSIS</option>
+                <option value="BARUERI">BARUERI</option>
+                <option value="BELO HORIZONTE">BELO HORIZONTE</option>
+                <option value="BRASILIA">BRASILIA</option>
+                <option value="CAMPINAS">CAMPINAS</option>
+                <option value="CAJAMAR">CAJAMAR</option>
+                <option value="CARAPICUIBA">CARAPICUIBA</option>
+                <option value="COTIA">COTIA</option>
+                <option value="DELFIM MOREIRA">DELFIM MOREIRA</option>
+                <option value="DIADEMA">DIADEMA</option>
+                <option value="EMBU DAS ARTES">EMBU DAS ARTES</option>
+                <option value="ILHOTA">ILHOTA</option>
+                <option value="JANDIRA">JANDIRA</option>
+                <option value="JOINVILLE">JOINVILLE</option>
+                <option value="RIO DE JANEIRO">RIO DE JANEIRO</option>
+                <option value="SANTANA DE PARNAIBA">SANTANA DE PARNAIBA</option>
+                <option value="SANTO ANDRE">SANTO ANDRE</option>
+                <option value="SÃO BERNADO DO CAMPO">SÃO BERNADO DO CAMPO</option>
+                <option value="SÃO JOSÉ DO RIO PRETO">SÃO JOSÉ DO RIO PRETO</option>
+                <option value="SÃO PAULO">SÃO PAULO</option>
+                <option value="SERRA">SERRA</option>
+                <option value="SOROCABA">SOROCABA</option>
+                <option value="TABOÃO DA SERRA">TABOÃO DA SERRA</option>
+                <option value="VILA VELHA">VILA VELHA</option>
+            </select>
+
+            <!-- Campo: CNPJ -->
+            <label for="cpf">CPF</label>
+            <input id="cpf" type="text" placeholder="12345678911" pattern="\d{11}"required>
+
+            <!-- Botão que envia o formulário -->
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+
+    <!-- ===============================
+    ABA: EDITAR EMPRESAS
+    =============================== -->
+    <div id="editar" class="aba">
+        <h2>Editar Pessoa Fisica</h2>
+
+        <!-- Lista gerada via JavaScript -->
+        <div class="fisica-lista"></div>
+    </div>
+
+    <!-- ===============================
+        ABA: EXCLUIR EMPRESAS
+        =============================== -->
+    <div id="excluir" class="aba">
+        <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Nome</th>
+                <th>Código Completo</th>
+                <th>Código</th>
+                <th>Município</th>
+                <th>CPF</th>
+            </tr>
+        </thead>
+
+        <!-- Corpo preenchido via JavaScript -->
+        <tbody id="listaExcluir"></tbody>
+        </table>
+
+        <!-- Botão para excluir marcadas -->
+        <div id="acoesSelecionadas" class="acoes-selecionadas" style="display: none;">
+            <button onclick="confirmarExclusaoFisica()">
+                🗑️ Excluir Selecionadas (<span id="contadorSelecionados">0</span>)
+            </button>
+        </div>
+    </div>
+
+    <!-- ===============================
+    ABA: LISTA GERAL
+    =============================== -->
+    <div id="listaAba" class="aba">
+        <div class="table-container">
+            <table class="tabela-fisica">
+                <thead>
+                    <tr>  
+                        <th>Nome</th>
+                        <th>Código Completo</th>
+                        <th>Código</th>
+                        <th>Município</th>
+                        <th>CPF</th>
+                    </tr>
+                </thead>
+                <!-- Linhas geradas pelo JS -->
+                <tbody id="lista"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="modalConfirm" class="modal-confirm">
+        <div class="modal-box">
+        <h3 id="modalTitulo">Confirmação</h3>
+        <p id="modalTexto">Tem certeza?</p>
+        <div class="modal-actions">
+            <button id="modalCancelar">Cancelar</button>
+            <button id="modalConfirmar">Confirmar</button>
+        </div>
+        </div>
+    </div>
+</main> 
+<footer class="footer">
+    <div class="footer-content">
+        <span>© 2026 Orcose Sistemas</span>
+        <span>Versão 1.0.0</span>
+    </div>
+</footer>
+<!-- Importa o JavaScript que controla tudo -->
+<script src="fisica.js"></script>
+<script src="../menu.js"></script>
+
+</body>
+</html>

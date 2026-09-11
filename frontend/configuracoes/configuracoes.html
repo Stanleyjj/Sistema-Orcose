@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<!-- ================================================================
+     DECLARAÇÃO DO DOCUMENTO
+     ================================================================ -->
+
+<!--
+Informa ao navegador que esta página utiliza
+o padrão HTML5 e está escrita em português.
+-->
+<html lang="pt-BR">
+
+<head>
+
+  <!-- =============================================================
+       CONFIGURAÇÕES DA PÁGINA
+       ============================================================= -->
+
+  <!--
+  Define o conjunto de caracteres utilizado.
+  O UTF-8 permite utilizar corretamente
+  acentos, cedilhas e caracteres especiais.
+  -->
+  <meta charset="UTF-8">
+
+  <!--
+  Nome exibido na aba do navegador.
+  -->
+  <title>Configurações</title>
+
+  <!-- =============================================================
+       IMPORTAÇÃO DOS ARQUIVOS DE ESTILO
+       ============================================================= -->
+
+  <!-- CSS principal do sistema -->
+  <link rel="stylesheet" href="../style.css">
+
+  <!-- CSS responsável pelo menu lateral -->
+  <link rel="stylesheet" href="../menu.css">
+
+</head>
+
+<!--
+Classe utilizada para aplicar um layout
+específico da tela de configurações.
+-->
+<body class="pagina-configuracoes">
+
+  <!--
+  Área utilizada para exibir notificações
+  como mensagens de sucesso, erro ou aviso.
+  -->
+  <div id="notificacao" class="notificacao"></div>
+
+  <!-- =============================================================
+       CABEÇALHO
+       ============================================================= -->
+
+  <header>
+
+    <!-- Logo da empresa -->
+    <img src="../logo orcose.png">
+
+    <!-- Nome da tela -->
+    <h1>Configurações</h1>
+
+    <!--
+    Exibe o nome do usuário logado.
+    Esse conteúdo é preenchido automaticamente
+    pelo JavaScript.
+    -->
+    <span id="usuarioTopo" class="usuario-topo"></span>
+
+    <!--
+    Botão responsável por abrir
+    ou fechar o menu lateral.
+    -->
+    <button class="menu-btn"
+            id="menuBtn"
+            onclick="toggleMenu()">
+
+      <span></span>
+      <span></span>
+      <span></span>
+
+    </button>
+
+  </header>
+
+  <!-- =============================================================
+       MENU LATERAL
+       ============================================================= -->
+
+  <nav id="menuLateral" class="menu-lateral">
+
+    <div class="menu-links">
+
+      <!-- Página inicial -->
+      <a href="../home/home.html">🏠 Home</a>
+
+      <!-- Menu expansível -->
+      <div class="menu-dropdown">
+
+        <div class="dropdown-btn"
+             onclick="toggleDropdown()">
+
+          📂 Cadastros
+
+          <span id="setaCadastro">▾</span>
+
+        </div>
+
+        <!-- Submenu -->
+        <div id="submenuCadastro" class="submenu">
+
+          <a href="../empresas/empresas.html">
+
+            🏢 Pessoa Jurídica
+
+          </a>
+
+          <a href="../fisica/fisica.html">
+
+            👤 Pessoa Física
+
+          </a>
+
+        </div>
+
+      </div>
+
+      <a href="../xml/xml.html">🧾 XML</a>
+
+      <a href="../usuarios/usuarios.html"
+         id="menuUsuarios">
+
+        🛡️ Usuários
+
+      </a>
+
+      <!-- Página atual -->
+      <a href="configuracoes.html">
+
+        ⚙ Configurações
+
+      </a>
+
+    </div>
+
+    <!-- Botão responsável por encerrar a sessão -->
+    <div class="menu-footer">
+
+      <button class="btn-logout"
+              onclick="logout()">
+
+        🚪 Sair
+
+      </button>
+
+    </div>
+
+  </nav>
+
+  <!-- =============================================================
+       CONTEÚDO PRINCIPAL
+       ============================================================= -->
+
+  <main class="app-content">
+
+    <!-- ==========================================================
+         CARD DO PERFIL
+         ========================================================== -->
+
+    <div class="card">
+
+      <h3>Perfil</h3>
+
+      <!--
+      Essas informações são carregadas
+      automaticamente quando a página é aberta.
+      -->
+      <p>
+
+        <b>Usuário:</b>
+
+        <span id="cfgUsuario"></span>
+
+      </p>
+
+      <p>
+
+        <b>Tipo:</b>
+
+        <span id="cfgTipo"></span>
+
+      </p>
+
+      <!--
+      Formulário utilizado para alterar
+      a senha do usuário.
+      -->
+      <form id="formSenha">
+
+        <!-- Senha atual -->
+        <input type="password"
+               id="senhaAtual"
+               placeholder="Senha atual"
+               required>
+
+        <!-- Nova senha -->
+        <input type="password"
+               id="novaSenha"
+               placeholder="Nova senha"
+               required>
+
+        <!--
+        Ao clicar neste botão,
+        o JavaScript envia a solicitação
+        ao backend para atualizar
+        a senha no banco de dados.
+        -->
+        <button>
+
+          Alterar senha
+
+        </button>
+
+      </form>
+
+    </div>
+
+    <!-- ==========================================================
+         CARD DE PREFERÊNCIAS
+         ========================================================== -->
+
+    <div class="card">
+
+      <h3>Preferências</h3>
+
+      <!--
+      Permite ativar ou desativar
+      o tema escuro do sistema.
+      -->
+      <label>
+
+        <input type="checkbox"
+               id="temaEscuro">
+
+        Tema escuro
+
+      </label>
+
+    </div>
+
+    <!-- ==========================================================
+         CARD ADMINISTRATIVO
+         ========================================================== -->
+
+    <!--
+    Este card fica oculto para usuários comuns.
+
+    Apenas administradores possuem acesso
+    às funções abaixo.
+    -->
+    <div class="card admin-only"
+         style="display:none">
+
+      <h3>Sistema</h3>
+
+      <!--
+      Executa o processo de backup
+      dos dados do sistema.
+      -->
+      <button onclick="backup()">
+
+        Backup
+
+      </button>
+
+      <!--
+      Remove todos os registros
+      cadastrados no sistema.
+
+      Antes da execução é exibida
+      uma confirmação ao usuário.
+      -->
+      <button onclick="resetar()">
+
+        Resetar sistema
+
+      </button>
+
+      <!-- Versão atual -->
+      <p>
+
+        Versão: 1.0.0
+
+      </p>
+
+    </div>
+
+  </main>
+
+  <!-- =============================================================
+       MODAL DE CONFIRMAÇÃO
+       ============================================================= -->
+
+  <!--
+  Janela utilizada para confirmar
+  ações importantes antes da execução.
+  -->
+  <div id="modalConfirm" class="modal-confirm">
+
+    <div class="modal-box">
+
+      <h3 id="modalTitulo"></h3>
+
+      <p id="modalTexto"></p>
+
+      <div class="modal-actions">
+
+        <button id="modalCancelar">
+
+          Cancelar
+
+        </button>
+
+        <button id="modalConfirmar">
+
+          Confirmar
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- =============================================================
+       RODAPÉ
+       ============================================================= -->
+
+  <footer class="footer">
+
+    <div class="footer-content">
+
+      <span>
+
+        © 2026 Orcose Sistemas
+
+      </span>
+
+      <span>
+
+        Versão 1.0.0
+
+      </span>
+
+    </div>
+
+  </footer>
+
+  <!-- =============================================================
+       IMPORTAÇÃO DOS ARQUIVOS JAVASCRIPT
+       ============================================================= -->
+
+  <!--
+  Arquivo responsável pelas funções
+  compartilhadas entre todas as páginas,
+  como menu lateral, logout e controle
+  da sessão do usuário.
+  -->
+  <script src="../menu.js"></script>
+
+  <!--
+  Arquivo responsável por toda a lógica
+  da tela de configurações.
+
+  Entre suas funções estão:
+
+  • Exibir os dados do usuário logado;
+  • Alterar senha;
+  • Aplicar o tema escuro;
+  • Executar backup do sistema;
+  • Resetar os cadastros;
+  • Comunicação com o backend.
+  -->
+  <script src="configuracoes.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<!--
+=========================================================================
+INÍCIO DO DOCUMENTO HTML
+=========================================================================
+-->
+
+<!--
+Informa ao navegador que este arquivo utiliza a versão HTML5.
+Isso garante que todos os recursos mais modernos da linguagem
+estejam disponíveis.
+-->
+<html lang="pt-BR">
+
+<head>
+
+  <!-- ================================================================
+       CONFIGURAÇÕES DA PÁGINA
+       ================================================================ -->
+
+  <!--
+  Define o conjunto de caracteres utilizado.
+
+  UTF-8 permite exibir corretamente:
+
+  • Letras acentuadas
+  • Cedilha
+  • Símbolos especiais
+  • Emojis
+  -->
+  <meta charset="UTF-8">
+
+
+  <!--
+  Texto exibido na aba do navegador.
+  -->
+  <title>Login - Sistema de Empresas</title>
+
+
+  <!--
+  Faz com que a página seja responsiva.
+
+  Ou seja, adapta automaticamente o layout
+  para celulares, tablets e computadores.
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  <!-- ================================================================
+       ARQUIVOS CSS
+       ================================================================ -->
+
+  <!--
+  Importa o arquivo principal de estilos.
+
+  Ele define cores, tamanhos,
+  espaçamentos, fontes e aparência geral.
+  -->
+  <link rel="stylesheet" href="style.css">
+
+
+  <!--
+  Importa estilos específicos do menu.
+  -->
+  <link rel="stylesheet" href="menu.css">
+
+</head>
+
+
+<!-- ===================================================================
+     INÍCIO DO CORPO DA PÁGINA
+     =================================================================== -->
+
+<body class="login-page">
+
+  <!--
+  Área destinada à exibição de notificações.
+  -->
+  <div id="notificacao" class="notificacao"></div>
+
+
+  <!-- ================================================================
+       CAIXA CENTRAL DE LOGIN
+       ================================================================ -->
+
+  <div class="login-box">
+
+    <!--
+    Exibe a logomarca da empresa.
+    -->
+    <img src="logo orcose.png" alt="Logo">
+
+
+    <!--
+    Título apresentado ao usuário.
+    -->
+    <h2>Acesso ao Sistema</h2>
+
+
+    <!--
+    Campo para digitação do usuário.
+
+    type="text"
+
+    permite qualquer texto.
+    -->
+    <input
+      type="text"
+      id="usuario"
+      placeholder="Usuário">
+
+
+    <!--
+    Campo para digitação da senha.
+
+    type="password"
+
+    oculta os caracteres digitados.
+    -->
+    <input
+      type="password"
+      id="senha"
+      placeholder="Senha">
+
+
+    <!--
+    Botão responsável por iniciar o login.
+
+    Quando clicado,
+    executa a função JavaScript:
+
+    logar()
+    -->
+    <button onclick="logar()">
+
+      Entrar
+
+    </button>
+
+
+    <!--
+    Área utilizada para mostrar mensagens de erro.
+
+    Exemplo:
+
+    Usuário inválido
+
+    ou
+
+    Senha incorreta
+    -->
+    <div id="msgErro" class="login-erro"></div>
+
+  </div>
+
+
+  <!-- ================================================================
+       CÓDIGO JAVASCRIPT
+       ================================================================ -->
+
+  <script>
+
+    // ===============================================================
+    // FUNÇÃO RESPONSÁVEL PELO LOGIN
+    // ===============================================================
+    //
+    // Esta função é executada quando o usuário
+    // clica no botão "Entrar".
+    async function logar() {
+
+
+      // =============================================================
+      // OBTÉM O TEXTO DIGITADO PELO USUÁRIO
+      // =============================================================
+
+      // Procura o campo de usuário na página.
+      //
+      // .value
+      //
+      // retorna o texto digitado.
+      //
+      // .trim()
+      //
+      // remove espaços em branco
+      // do início e do final.
+      const usuario =
+        document
+          .getElementById('usuario')
+          .value
+          .trim();
+
+
+      // Faz exatamente o mesmo procedimento
+      // para a senha.
+      const senha =
+        document
+          .getElementById('senha')
+          .value
+          .trim();
+
+
+      // =============================================================
+      // VALIDAÇÃO DOS CAMPOS
+      // =============================================================
+
+      // Verifica se algum campo ficou vazio.
+      if (!usuario || !senha) {
+
+        // Exibe mensagem de erro.
+        mostrarErro('Preencha usuário e senha.');
+
+        // Interrompe a execução da função.
+        return;
+
+      }
+
+
+      // =============================================================
+      // ENVIA A REQUISIÇÃO AO BACKEND
+      // =============================================================
+
+      try {
+
+        // fetch()
+
+        // Realiza uma requisição HTTP
+        // para o servidor.
+        const res = await fetch(
+
+          'http://localhost:3000/auth/login',
+
+          {
+
+            // Método HTTP utilizado.
+            method: 'POST',
+
+            // Informa ao servidor
+            // que será enviado um JSON.
+            headers: {
+
+              'Content-Type': 'application/json'
+
+            },
+
+            // Converte o objeto JavaScript
+            // para texto JSON.
+            body: JSON.stringify({
+
+              usuario,
+              senha
+
+            })
+
+          }
+
+        );
+
+
+        // ===========================================================
+        // CONVERTE A RESPOSTA PARA JSON
+        // ===========================================================
+
+        const dados = await res.json();
+
+
+        // ===========================================================
+        // VERIFICA SE O LOGIN FOI ACEITO
+        // ===========================================================
+
+        // res.ok
+
+        // Será verdadeiro apenas
+        // quando o servidor responder
+        // com sucesso.
+        if (!res.ok) {
+
+          mostrarErro(
+
+            dados.erro ||
+
+            'Usuário ou senha inválidos.'
+
+          );
+
+          return;
+
+        }
+
+
+        // ===========================================================
+        // CALCULA O HORÁRIO DE EXPIRAÇÃO
+        // ===========================================================
+
+        // Obtém o horário atual.
+        const agora = new Date().getTime();
+
+
+        // Soma 30 minutos.
+
+        // 30 minutos
+
+        // ×
+
+        // 60 segundos
+
+        // ×
+
+        // 1000 milissegundos
+        const expiraEm =
+
+          agora +
+
+          (30 * 60 * 1000);
+
+
+        // ===========================================================
+        // SALVA OS DADOS DA SESSÃO
+        // ===========================================================
+
+        // sessionStorage
+
+        // Armazena informações
+        // apenas durante a sessão atual.
+
+        // Quando o navegador é fechado,
+        // esses dados são apagados.
+
+        // Usuário autenticado.
+        sessionStorage.setItem(
+
+          'usuario',
+
+          dados.usuario
+
+        );
+
+
+        // Perfil do usuário.
+        sessionStorage.setItem(
+
+          'tipo',
+
+          dados.tipo
+
+        );
+
+
+        // Horário de expiração da sessão.
+        sessionStorage.setItem(
+
+          'expira',
+
+          expiraEm
+
+        );
+
+
+        // ===========================================================
+        // REDIRECIONA PARA A TELA PRINCIPAL
+        // ===========================================================
+
+        // Após o login,
+        // abre a página inicial do sistema.
+        window.location.href =
+
+          'home/home.html';
+
+      }
+
+
+      // =============================================================
+      // CASO OCORRA ALGUM ERRO
+      // =============================================================
+      catch (err) {
+
+        // Exibe o erro completo
+        // no Console do navegador.
+        console.error(err);
+
+        // Informa o usuário.
+        mostrarErro(
+
+          'Erro ao conectar ao servidor.'
+
+        );
+
+      }
+
+    }
+
+
+    // ===============================================================
+    // FUNÇÃO RESPONSÁVEL POR EXIBIR ERROS
+    // ===============================================================
+
+    function mostrarErro(texto) {
+
+      // Localiza o elemento onde
+      // a mensagem será exibida.
+      const msg =
+
+        document.getElementById('msgErro');
+
+
+      // Define o texto da mensagem.
+      msg.textContent = texto;
+
+
+      // Torna a mensagem visível.
+      msg.style.display = 'block';
+
+    }
+
+  </script>
+
+</body>
+
+</html>

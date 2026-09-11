@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+
+<!-- ================================================================
+     DECLARAÇÃO DO DOCUMENTO HTML
+     ================================================================ -->
+
+<!--
+Informa ao navegador que esta página utiliza
+a versão HTML5.
+-->
+<html lang="pt-BR">
+
+<head>
+
+  <!-- ==============================================================
+       CONFIGURAÇÕES DA PÁGINA
+       ============================================================== -->
+
+  <!--
+  Define o conjunto de caracteres utilizado.
+
+  UTF-8 permite exibir corretamente:
+
+  • Letras acentuadas
+  • Caracteres especiais
+  • Emojis
+  -->
+  <meta charset="UTF-8">
+
+
+  <!--
+  Texto exibido na aba do navegador.
+  -->
+  <title>Início</title>
+
+
+  <!-- ==============================================================
+       IMPORTAÇÃO DOS ARQUIVOS CSS
+       ============================================================== -->
+
+  <!--
+  Arquivo responsável pelos estilos gerais
+  da aplicação.
+  -->
+  <link rel="stylesheet" href="../style.css">
+
+
+  <!--
+  Arquivo responsável pelos estilos
+  do menu lateral.
+  -->
+  <link rel="stylesheet" href="../menu.css">
+
+</head>
+
+
+<!-- ================================================================
+     CORPO DA PÁGINA
+     ================================================================ -->
+
+<body>
+
+<!--
+Área destinada à exibição de notificações.
+
+O JavaScript altera seu conteúdo para mostrar
+mensagens de sucesso, aviso ou erro.
+-->
+<div id="notificacao" class="notificacao"></div>
+
+
+<!-- ==============================================================
+     CABEÇALHO
+     ============================================================== -->
+
+<header>
+
+  <!--
+  Logo da empresa.
+  -->
+  <img src="../logo orcose.png">
+
+
+  <!--
+  Nome do sistema.
+  -->
+  <h1>
+
+    Sistema Orcose
+
+  </h1>
+
+
+  <!--
+  Exibe o usuário que está logado.
+
+  O conteúdo será preenchido
+  automaticamente pelo JavaScript.
+  -->
+  <span
+    id="usuarioTopo"
+    class="usuario-topo"></span>
+
+
+  <!--
+  Botão responsável por abrir
+  e fechar o menu lateral.
+  -->
+  <button
+
+    class="menu-btn"
+
+    id="menuBtn"
+
+    onclick="toggleMenu()">
+
+    <!--
+    Os três spans formam
+    o ícone conhecido como
+    Menu Hambúrguer.
+    -->
+    <span></span>
+    <span></span>
+    <span></span>
+
+  </button>
+
+</header>
+
+
+<!-- ==============================================================
+     MENU LATERAL
+     ============================================================== -->
+
+<nav id="menuLateral" class="menu-lateral">
+
+  <div class="menu-links">
+
+    <!-- Página inicial -->
+    <a href="home.html">
+
+      🏠 Home
+
+    </a>
+
+
+    <!-- ==========================================================
+         MENU EXPANSÍVEL
+         ========================================================== -->
+
+    <div class="menu-dropdown">
+
+      <!--
+      Botão que abre ou fecha
+      o submenu.
+      -->
+      <div
+        class="dropdown-btn"
+        onclick="toggleDropdown()">
+
+        📂 Cadastros
+
+        <span id="setaCadastro">
+
+          ▾
+
+        </span>
+
+      </div>
+
+
+      <!--
+      Submenu contendo
+      as opções de cadastro.
+      -->
+      <div
+        id="submenuCadastro"
+        class="submenu">
+
+        <a href="../empresas/empresas.html">
+
+          🏢 Pessoa Jurídica
+
+        </a>
+
+        <a href="../fisica/fisica.html">
+
+          👤 Pessoa Física
+
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <!-- Tela de leitura XML -->
+    <a href="../xml/xml.html">
+
+      🧾 XML
+
+    </a>
+
+
+    <!-- Tela de usuários -->
+    <a
+      href="../usuarios/usuarios.html"
+      id="menuUsuarios">
+
+      🛡️ Usuários
+
+    </a>
+
+
+    <!-- Configurações -->
+    <a href="../configuracoes/configuracoes.html">
+
+      ⚙ Configurações
+
+    </a>
+
+  </div>
+
+
+  <!-- ==========================================================
+       RODAPÉ DO MENU
+       ========================================================== -->
+
+  <div class="menu-footer">
+
+    <!--
+    Encerra a sessão
+    do usuário logado.
+    -->
+    <button
+
+      class="btn-logout"
+
+      onclick="logout()">
+
+      🚪 Sair
+
+    </button>
+
+  </div>
+
+</nav>
+
+
+<!-- ==============================================================
+     MENU SUPERIOR
+     ============================================================== -->
+
+<nav class="menu">
+
+  <ul>
+
+    <!--
+    Retorna para a página anterior.
+    -->
+    <li onclick="voltar()">
+
+      VOLTAR
+
+    </li>
+
+  </ul>
+
+</nav>
+
+
+<!-- ==============================================================
+     CONTEÚDO PRINCIPAL
+     ============================================================== -->
+
+<main>
+
+  <!--
+  Título da tela inicial.
+  -->
+  <h2>
+
+    Resumo do Sistema
+
+  </h2>
+
+
+  <!-- ==========================================================
+       CARDS DO DASHBOARD
+       ========================================================== -->
+
+  <!--
+  Cada card funciona como um atalho
+  para outra tela do sistema.
+  -->
+  <div class="cards">
+
+
+    <!-- ========================================================
+         CARD EMPRESAS
+         ======================================================== -->
+
+    <a
+      href="../empresas/empresas.html"
+      class="card-home">
+
+      <h3>
+
+        🏢 Empresas
+
+      </h3>
+
+      <!--
+      Quantidade total de empresas.
+
+      Será preenchida automaticamente
+      pelo JavaScript.
+      -->
+      <p id="totalEmpresas">
+
+        0
+
+      </p>
+
+    </a>
+
+
+    <!-- ========================================================
+         CARD PESSOA FÍSICA
+         ======================================================== -->
+
+    <a
+      href="../fisica/fisica.html"
+      class="card-home">
+
+      <h3>
+
+        👤 Pessoas Físicas
+
+      </h3>
+
+      <!--
+      Quantidade de pessoas físicas.
+
+      Atualizada dinamicamente.
+      -->
+      <p id="totalFisica">
+
+        0
+
+      </p>
+
+    </a>
+
+
+    <!-- ========================================================
+         CARD XML
+         ======================================================== -->
+
+    <a
+      href="../xml/xml.html"
+      class="card-home">
+
+      <h3>
+
+        🧾 XML
+
+      </h3>
+
+      <!--
+      Apenas uma descrição da funcionalidade.
+      -->
+      <p>
+
+        Imposto De Renda
+
+      </p>
+
+    </a>
+
+  </div>
+
+
+  <!-- ==========================================================
+       ÚLTIMOS CADASTROS
+       ========================================================== -->
+
+  <div class="ultimos">
+
+
+    <!-- Últimas empresas -->
+    <h3>
+
+      Últimas Empresas
+
+    </h3>
+
+
+    <!--
+    Lista criada automaticamente
+    pelo JavaScript.
+    -->
+    <ul id="ultimasEmpresas"></ul>
+
+
+    <!-- Últimas pessoas físicas -->
+    <h3>
+
+      Últimas Pessoas Físicas
+
+    </h3>
+
+
+    <!--
+    Lista preenchida dinamicamente
+    após consultar o backend.
+    -->
+    <ul id="ultimasFisicas"></ul>
+
+  </div>
+
+</main>
+
+
+<!-- ==============================================================
+     MODAL DE CONFIRMAÇÃO
+     ============================================================== -->
+
+<!--
+Janela utilizada para solicitar
+confirmação do usuário antes
+de executar ações importantes.
+-->
+<div id="modalConfirm" class="modal-confirm">
+
+  <div class="modal-box">
+
+    <h3 id="modalTitulo">
+
+      Confirmação
+
+    </h3>
+
+    <p id="modalTexto">
+
+      Tem certeza?
+
+    </p>
+
+    <div class="modal-actions">
+
+      <button id="modalCancelar">
+
+        Cancelar
+
+      </button>
+
+      <button id="modalConfirmar">
+
+        Confirmar
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ==============================================================
+     RODAPÉ
+     ============================================================== -->
+
+<footer class="footer">
+
+  <div class="footer-content">
+
+    <!-- Direitos autorais -->
+    <span>
+
+      © 2026 Orcose Sistemas
+
+    </span>
+
+    <!-- Versão atual -->
+    <span>
+
+      Versão 1.0.0
+
+    </span>
+
+  </div>
+
+</footer>
+
+
+<!-- ==============================================================
+     IMPORTAÇÃO DOS ARQUIVOS JAVASCRIPT
+     ============================================================== -->
+
+<!--
+Arquivo responsável pelas funções
+do menu lateral.
+-->
+<script src="../menu.js"></script>
+
+
+<!--
+Arquivo responsável pela lógica
+da página inicial.
+
+Ele realiza funções como:
+
+• Buscar os totais de empresas
+
+• Buscar os totais de pessoas físicas
+
+• Listar os últimos cadastros
+
+• Atualizar automaticamente os cards
+
+• Comunicação com o backend
+-->
+<script src="home.js"></script>
+
+</body>
+
+</html>
